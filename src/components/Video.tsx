@@ -21,15 +21,11 @@ export default function Video({
     capture,
     options,
     handleSelectCamera,
+    liveViewRef,
   } = useVideo({
     autoPlay,
   });
 
-  useEffect(() => {
-    setTimeout(() => {
-      capture();
-    }, 3000);
-  }, []);
   return (
     <>
       <select onChange={handleSelectCamera}>
@@ -39,17 +35,23 @@ export default function Video({
           </option>
         ))}
       </select>
-
-      <video
-        ref={videoRef}
-        autoPlay={autoPlay}
-        disablePictureInPicture={disablePictureInPicture}
-        playsInline
-        width={width}
-        height={height}
-        style={{ transform: "rotateY(180deg)" }}
-      />
-      <canvas ref={canvasRef} style={{ display: "none" }} />
+      <div
+        id="liveView"
+        ref={liveViewRef}
+        style={{ position: "relative", width, height }}
+      >
+        <video
+          id="video"
+          ref={videoRef}
+          autoPlay={autoPlay}
+          disablePictureInPicture={disablePictureInPicture}
+          playsInline
+          width={width}
+          height={height}
+          style={{ transform: "rotateY(180deg)" }}
+        />
+        <canvas ref={canvasRef} style={{ display: "none" }} />
+      </div>
       {capturedImage}
     </>
   );
