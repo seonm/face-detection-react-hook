@@ -1,7 +1,10 @@
 {
   "name": "face-detection-react-hook",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.0.1",
+  "private": false,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "browser": "./browser/specific/main.js",
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@mediapipe/tasks-vision": "^0.10.14",
@@ -44,12 +47,25 @@
       "last 1 safari version"
     ]
   },
-  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
-  "main": "eslint.config.js",
-  "author": "",
+  "description": "This project is React Face Detection Video Component Library",
+  "keywords": [
+    "react",
+    "component",
+    "video",
+    "mediapipe",
+    "face detection"
+  ],
+  "author": "millie",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^8.57.0",
     "eslint-config-react-app": "^7.0.1"
+  },
+  "contributors": [
+    "millie"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/seonm/face-detection-react-hook"
   }
 }
