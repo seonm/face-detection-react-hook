@@ -1,58 +1,70 @@
-import { useEffect, useRef } from "react";
-import useMediaPipe from "../hooks/use-mediapipe";
-import useVideo from "../hooks/use-video";
+import useVideo from '../hooks/use-video';
+import Live from './Live';
 
 interface Props {
   autoPlay?: boolean;
   disablePictureInPicture?: boolean;
-  width: number;
-  height: number;
+  select?: boolean;
+  mirror?: boolean;
+  width?: number;
 }
 export default function Video({
   autoPlay = true,
-  disablePictureInPicture,
-  width,
-  height,
+  select = true,
+  mirror = true,
+  disablePictureInPicture = true,
+  width = 480,
 }: Props) {
+  const height = (width * 3) / 4;
+
   const {
     videoRef,
     canvasRef,
     capturedImage,
     capture,
     options,
+    selectedDeviceId,
     handleSelectCamera,
-    liveViewRef,
+    stop,
+    play,
+    findCamera,
   } = useVideo({
-    autoPlay,
+    autoPlay: autoPlay,
+    select: select,
+    mirror: mirror,
   });
 
   return (
-    <>
-      <select onChange={handleSelectCamera}>
-        {options.map((option) => (
-          <option key={option.label} value={option.value}>
-            {option.label}
+    <div>
+      {select && (
+        <select onChange={handleSelectCamera}>
+          <option key="0" value="0">
+            choose camera
           </option>
-        ))}
-      </select>
-      <div
-        id="liveView"
-        ref={liveViewRef}
-        style={{ position: "relative", width, height }}
-      >
-        <video
-          id="video"
-          ref={videoRef}
-          autoPlay={autoPlay}
-          disablePictureInPicture={disablePictureInPicture}
-          playsInline
-          width={width}
-          height={height}
-          style={{ transform: "rotateY(180deg)" }}
-        />
-        <canvas ref={canvasRef} style={{ display: "none" }} />
-      </div>
-      {capturedImage}
-    </>
+          {options.map((option) => (
+            <option key={option.label} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      )}
+
+      <Live
+        videoRef={videoRef}
+        canvasRef={canvasRef}
+        selectedDeviceId={selectedDeviceId}
+        mirror={mirror}
+        width={width}
+        height={height}
+        autoPlay={autoPlay}
+        disablePictureInPicture={disablePictureInPicture}
+      />
+
+      {select && <button onClick={findCamera}>카메라 리스트 찾기</button>}
+      <button onClick={play}>카메라 연결</button>
+      <button onClick={stop}>정지</button>
+      <button onClick={capture}>화면 캡쳐</button>
+      {capturedImage && <img src={capturedImage}></img>}
+    </div>
   );
 }
